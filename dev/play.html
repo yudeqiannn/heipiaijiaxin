@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<script>window.requestAnimationFrame = function () { return 0; }; window.cancelAnimationFrame = function () {};</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #080a0b; }
+  #phone { position: relative; width: 390px; height: 844px; overflow: hidden; background: #080a0b; }
+  #game { display: block; width: 100%; height: 100%; touch-action: none; }
+</style>
+</head>
+<body>
+<div id="phone"><canvas id="game"></canvas></div>
+<pre id="dbg" style="position:fixed;left:0;top:0;font:6px monospace;color:#0f0;z-index:9999;white-space:pre-wrap;width:390px"></pre>
+<script src="../game.js"></script>
+<script>
+(function () {
+  var Q = new URLSearchParams(location.search);
+  var frames = +(Q.get('frames') || 480);
+  var mode = Q.get('key') || 'auto';
+  function st() {
+    try {
+      return JSON.stringify({
+        state: state, t: +(hDiffT || 0).toFixed(1), m: Math.round((hTop || 0) / HD.m),
+        score: Math.round(typeof score !== 'undefined' ? score : 0),
+        lives: hLives, candy: hCandyRun, rage: Math.round(hRage || 0), wave: hWave,
+        en: enemies.length, gap: Math.round(hGap()), heat: +hHeat().toFixed(2),
+        px: Math.round(P.x), py: Math.round(P.y), revives: hRevives,
+        d2: { hTut: hTut, tutOn: hTutOn(), hBurst: !!hBurst, hitstop: +hitstop.toFixed(2),
+              hTop: Math.round(hTop), diffT: +hDiffT.toFixed(2), pause: state },
+        quests: (meta.hq.q || []).map(function (q) { return q.id + ':' + q.d + '/' + q.n + (q.ok ? '✓' : ''); }),
+        lv: meta.hq.lv, metaCandy: meta.candy, props: Math.round(hPropNext || 0)
+      });
+    } catch (e) { return 'ERR ' + e.message; }
+  }
+  setTimeout(function () {
+    var dbg = document.getElementById('dbg');
+    try { meta.htut = H_TUT_VER; meta.tut = TUT_DONE; } catch (e) {}
+    try { startHorde(); } catch (e) { dbg.textContent = 'START ERR ' + e.message; return; }
+    try { hTutPend = false; hTut = H_TUT_DONE; meta.htut = H_TUT_VER; } catch (e) {}
+    var vt = 1000, hold = -1, deadAt = -1;
+    var inv = Q.get('inv') === '1';
+    for (var i = 0; i < frames; i++) {
+      vt += 16.6;
+      if (mode !== 'none') {
+        if (i % 21 === 0) { var k = Math.random() < 0.5 ? 'a' : 'd'; keys[k] = true; hold = i + 11; }
+        if (i === hold) { keys.a = false; keys.d = false; }
+      }
+      try { frameStep(vt); } catch (e) { dbg.textContent = 'FRAME ERR[' + i + '] ' + e.message; return; }
+      if (inv) { P.inv = 9999; hLives = 3; }
+      if (deadAt < 0 && (state === 'dead' || state === 'over')) deadAt = i;
+    }
+    dbg.textContent = 'STATE:' + st() + ' | frames=' + frames + ' deadAt=' + deadAt + '\nDATA:' + document.getElementById('game').toDataURL('image/png');
+  }, 500);
+})();
+</script>
+</body>
+</html>

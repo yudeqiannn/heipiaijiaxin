@@ -1,0 +1,32 @@
+{
+  "description": "黑皮爱嘉欣 · 抖音小游戏（横屏跑酷，从嘉豪斩拆出来的）",
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "dev"
+      },
+      {
+        "type": "folder",
+        "value": ".chrome-shot"
+      },
+      {
+        "type": "folder",
+        "value": ".claude"
+      },
+      {
+        "type": "file",
+        "value": "debug.log"
+      }
+    ]
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": false,
+    "minified": true,
+    "newFeature": true
+  },
+  "appid": "TODO-heipiaijiaxin-appid",
+  "projectname": "heipiaijiaxin"
+}

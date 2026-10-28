@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>斩 · 竖屏预览</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%; overflow: hidden;
+    background: radial-gradient(circle at 50% 40%, #0d1116 0%, #05070a 70%);
+    font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    -webkit-user-select: none; user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body { display: flex; align-items: center; justify-content: center; }
+
+  /* 模拟 iPhone 竖屏：390 x 844。所有尺寸都在这个框里算，和真机一致 */
+  #phone {
+    position: relative;
+    width: 390px; height: 844px;
+    border-radius: 34px;
+    overflow: hidden;
+    background: #080a0b;
+    box-shadow: 0 0 0 9px #1a1e24, 0 0 0 11px #2c323a, 0 30px 70px rgba(0,0,0,0.75);
+    transform-origin: center center;
+  }
+  #game { display: block; width: 100%; height: 100%; touch-action: none; }
+
+  /* 顶部刘海，用来检查安全区有没有挡住分数 */
+  #notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 150px; height: 30px;
+    background: #0b0d10; border-radius: 0 0 18px 18px;
+    pointer-events: none;
+  }
+  #cap {
+    position: absolute; bottom: 16px; left: 0; right: 0;
+    text-align: center; color: rgba(255,255,255,0.28);
+    font-size: 12px; letter-spacing: 1px; pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div id="phone">
+  <canvas id="game"></canvas>
+  <div id="notch"></div>
+</div>
+<div id="cap">390 × 844 竖屏预览 —— 真机同尺寸</div>
+
+<script>
+  // 窗口不够高时整体等比缩小，但不改变画布的逻辑尺寸
+  (function fit() {
+    const p = document.getElementById('phone');
+    const s = Math.min(1, (window.innerHeight - 60) / 844, (window.innerWidth - 60) / 390);
+    p.style.transform = 'scale(' + s.toFixed(3) + ')';
+  })();
+</script>
+<script src="../game.js"></script>
+</body>
+</html>
