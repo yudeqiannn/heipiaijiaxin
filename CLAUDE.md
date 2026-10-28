@@ -5,7 +5,7 @@
 
 ## 工作规则
 
-- **每次修改完成后，都要 commit 并 push 到 `main` 分支。** 不需要另开分支或 PR。（远程仓库还没建：建好以前只 commit。）
+- **每次修改完成后，都要 commit 并 push 到 `main` 分支。** 不需要另开分支或 PR。远程仓库：`https://github.com/yudeqiannn/heipiaijiaxin`。
 
 ## 项目说明
 
