@@ -7,6 +7,10 @@
 
 - **每次修改完成后，都要 commit 并 push 到 `main` 分支。** 不需要另开分支或 PR。远程仓库：`https://github.com/yudeqiannn/heipiaijiaxin`。
 
+## 文件放哪
+
+- 给用户看的截图放 `Z:\黑皮爱嘉欣-截图\<月日-内容>截图\`（Z:\ = /opt/studio-hub/tenants/yudeqian/work）。根目录只放项目和工具输出文件夹，整体布局见根目录 `目录说明.txt`（2026-11-01 整理）。
+
 ## 项目说明
 
 - 抖音小游戏，**appid 还没有**：`project.config.json` 里是占位 `TODO-heipiaijiaxin-appid`，用户在抖音开发者后台新建小游戏以后换上。千万别填嘉豪斩的 appid（`ttab1bdda63562bafb02`）：一上传就把嘉豪斩覆盖了。
